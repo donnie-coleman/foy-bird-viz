@@ -1,0 +1,146 @@
+html {
+	background-color: #F4F1EA;	
+}
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: #333;
+	padding: 0;
+	margin: 0;
+}
+
+.top {
+	height: 100%;
+	width: 300px;
+	float: left;
+	background-color: #9DD2D7;
+	position: fixed;
+	padding: 5px;
+}
+
+.controls {
+	background-color: #F4F1EA;
+	padding: 10px;
+}
+.controls input[type=search]{
+	-webkit-appearance:textfield;
+box-sizing: content-box;
+	width: 100%;
+	height: 30px;
+	font-size: large;
+}
+.controls input[type=checkbox] {
+	display: none;
+}
+.controls input[type=checkbox] + label {
+	display: block;
+	margin-top: 5px;
+	opacity: .5;
+	cursor: pointer;
+}
+.controls input[type=checkbox] + label:hover {
+	background-color: #49463F;
+	color: #F4F1EA;
+	opacity: 1;
+}
+.controls input[type=checkbox]:checked + label {
+	background-color: #377F87	;
+	opacity: 1;
+   color: #F4F1EA;	
+}
+
+.info {
+	min-height: 300px;
+	background-color: #89B500;
+	padding: 10px;
+}
+.info > div {
+	/*text-align: center;*/
+}
+.listHolder {
+	margin-left: 325px;
+}
+
+.info ul {
+	margin-top: 0;
+	padding-left: 20px;
+}
+
+ol {
+	padding: 0;
+	margin:0;
+	width: 32%;
+	list-style: none;
+}
+.bird-table li{
+	margin-bottom: 5px;
+}
+.bird-table {
+	float:left;
+}
+
+.bird {
+	padding: 2px 15px 2px 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	border: 3px solid #666;
+}
+
+li.month{
+  text-align: center;
+}
+li.total {
+  text-align: center;
+  font-size: 35px;
+}
+
+.bird.january {
+	background-color: Turquoise;
+}
+.bird.february {
+	background-color: Silver;
+}
+.bird.march {
+	background-color: Red;
+}
+.bird.april {
+	background-color: Brown;
+}
+.bird.may {
+	background-color: Orange;
+}
+.bird.june {
+	background-color: Yellow;
+}
+.bird.july {
+	background-color: Gold;	
+}
+.bird.august{
+	color: White;
+	background-color: Purple;
+}
+.bird.september{
+	background-color: Pink;
+}
+.bird.october{
+	color: White;
+	background-color: Blue;
+}
+.bird.november{
+	color: White;
+	background-color: Black;
+}
+.bird.december{
+	background-color: Green;
+}
+.bird.lifer {
+	border-color: goldenrod;
+}
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+.clearfix:after {
+    clear: both;
+}

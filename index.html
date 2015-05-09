@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+	<link href="listBirds.css" rel="stylesheet" type="text/css">
+  </head>
+  <body ng-controller="BirdsCtrl">
+  	<div class="top">
+  		<div class="controls">
+		    <input class="clearfix" name="filter" type="search" placeholder="Search by Name, Notes" ng-model="birdName" />
+			<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">Sort: Dec. - Jan.</label>
+			<input class="clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">Life-Birds Only</label>
+		</div>
+		<div class="info" bird-info-container></div>	
+	</div>
+
+    <div class="listHolder" ng-repeat="year in birdLists | reverseOrder:true">
+		<bird-list year="year" bird-name="{{::birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" select="selectBird(b)"></bird-list>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js" type="text/javascript"></script>
+   	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js" type="text/javascript"></script>
+
+   	<script src="bird-store/index.js" type="text/javascript"></script>
+   	<script src="bird-store/google-spreadsheet-keys.js" type="text/javascript"></script>
+   	<script src="bird-store/google-spreadsheet-bird-parser.js" type="text/javascript"></script>
+   	<script src="bird-store/bird-service.js" type="text/javascript"></script>
+   	<script src="birds.js" type="text/javascript"></script>
+
+	<script type="text/ng-template" id="allbirds.html">
+		<ol class="bird-table"  >
+			<li class="total" ng-bind="::year.year"></li>
+			<li ng-if="lifers=='true'" class="total">{{(year.birds | filter: birdName | filter: lifers ).length}} Birds</li>
+			<li  ng-if="lifers=='false'" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
+		    <ng-include src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
+		</ol>
+	</script>
+	<script type="text/ng-template" id="monthbird.html">
+		<li class="month" ng-hide="birdName.length || lifers=='true'"><span ng-bind="::formatMonth(month[0].month)"></span><span ng-bind="::formatMonth(month[0].year)"></span>: <span ng-bind="::month.length"></span> birds</li>
+		<li class="bird {{ formatMonth(bird.month) | lowercase }}" ng-class="{lifer:bird.lifer}" ng-hide="lifers=='true' && {{!bird.lifer}}" ng-repeat="bird in month | filter: birdName | reverseOrder:reverse" ng-click="select({b:bird})" >
+			<span class="bird-name" ng-bind="::bird.bird"></span>
+		</li>
+	</script>
+
+	<script type="text/ng-template" id="infocontainer.html">
+		<div ng-bind="selected.bird"></div>
+		<ul>
+			<ng-include src="'birdinfo.html'" ng-repeat="bird in selectedBirds | reverseOrder:true"></ng-include>
+		</ul>
+	</script>
+	<script type="text/ng-template" id="birdinfo.html">
+		<li ng-class="{selected: bird.year == selected.year}"><span ng-bind="::formatDate(bird)"></span> (d. <span ng-bind="::bird.doy"></span>)
+			<ul>
+				<li ng-show="bird.location" ng-bind="::bird.location"></li>
+				<li ng-show="bird.locationDesc" ng-bind="::bird.locationDesc"></li>
+				<li ng-show="bird.notes" ng-bind="::bird.notes"></li>
+				<li ng-show="bird.lifer" ng-bind="::getLifer(bird)"></li>
+			</ul>
+		</li>
+	</script>
+  </body>
+</html>
