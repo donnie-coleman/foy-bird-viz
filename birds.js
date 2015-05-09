@@ -1,7 +1,7 @@
 (function(){
 	angular
 	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info'])
-	.controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
+	.controller('BirdsCtrl', ['$scope', 'birdService', '$q', 'birdCSVParser', '$filter', function(scope, birdService, $q, birdCSVParser, $filter) {
 		scope.reverse = true;
 		scope.lifers = false;
 		scope.birdLists = [];
@@ -17,6 +17,14 @@
 		  		scope.birdLists = datas;
 		  		var latestList = _.last(scope.birdLists).birds;
 		  		scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
+		  		scope.csv=birdCSVParser.parse(datas);
+		  		// scope.$watch('birdName', function(newVal, oldVal){
+		  		// 	//need to filter every bird by month
+		  		// 	scope.csv=birdCSVParser.parse(_.map(scope.birdLists, function(birdList){
+		  		// 		return $filter('filter')(birdList, newVal);
+		  		// 	}));
+		  		// });
+
 		  });   
 
 		scope.selectBird = function(bird, doNotToggleDrawer){
