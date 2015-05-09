@@ -6,33 +6,51 @@ body {
 	color: #333;
 	padding: 0;
 	margin: 0;
+	min-width: 700px;
+}
+#birdGraph {
+	margin: 80px;
+}
+.top {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 100;
 }
 
-.top {
-	height: 100%;
-	width: 300px;
-	float: left;
-	background-color: #9DD2D7;
+.bird-info-bar {
+	width: 100%;
+	height: 20px;
+	background-color: #666;
+	cursor: pointer;
+	z-index: 200;
 	position: fixed;
-	padding: 5px;
+	top: 50px;
+}
+.bird-info-bar-container {
+	position: fixed;
+	z-index: 50;
 }
 
 .controls {
-	background-color: #F4F1EA;
+	height: 50px;
+	background-color: #9DD2D7;
 	padding: 10px;
+	z-index: 100;
+	position: absolute;
+	text-align: right;
+	right: 0;
+	width: 100%;
 }
 .controls input[type=search]{
-	-webkit-appearance:textfield;
-box-sizing: content-box;
-	width: 100%;
-	height: 30px;
+	width: 300px;
 	font-size: large;
 }
 .controls input[type=checkbox] {
 	display: none;
 }
 .controls input[type=checkbox] + label {
-	display: block;
+	/*display: block;*/
 	margin-top: 5px;
 	opacity: .5;
 	cursor: pointer;
@@ -43,22 +61,55 @@ box-sizing: content-box;
 	opacity: 1;
 }
 .controls input[type=checkbox]:checked + label {
-	background-color: #377F87	;
+	background-color: #377F87;
 	opacity: 1;
-   color: #F4F1EA;	
+    color: #F4F1EA;	
 }
 
 .info {
-	min-height: 300px;
-	background-color: #89B500;
-	padding: 10px;
+	color: white;
+	height: inherit;
+	padding: 10px 0 0 10px;
+	border: 1px solid #F4F1EA;
+	border-top: none;
+	text-align: left;
+	border-bottom: none;
+	overflow: hidden;
 }
-.info > div {
-	/*text-align: center;*/
+
+.info > ol {
+	float: left;
+}
+.listHolderHolder {
+	margin: 0 10px;
+	display: table;
+	table-layout: fixed;
+	width: 99%;
+	z-index: 5;
 }
 .listHolder {
-	margin-left: 325px;
+	display: table-cell;
+	width: auto;
+	max-width: 33%;
+	height: 195px;
 }
+.listHolder.empty {
+	border: 1px dashed #49463F;
+	opacity: .5;
+	background-color: #49463F;
+}
+.slide.listHolderHolder {
+	-webkit-transition: .3s ease-out all;
+  	transition: .3s ease-out all;
+	margin-top: -157px;
+}
+.slide.listHolderHolder.showInfo {
+	-webkit-transition: .3s ease-out all;
+  	transition: .3s ease-out all;
+	margin-top: 60px;
+	cursor: pointer;
+}
+
 
 .info ul {
 	margin-top: 0;
@@ -68,73 +119,80 @@ box-sizing: content-box;
 ol {
 	padding: 0;
 	margin:0;
-	width: 32%;
+	
 	list-style: none;
 }
 .bird-table li{
 	margin-bottom: 5px;
 }
-.bird-table {
-	float:left;
+ol.bird-table {
+	-webkit-transition: .3s ease-out all;
+  	transition: .3s ease-out all;
+	padding-top: 70px;
+}
+ol.bird-table.showInfo {
+	-webkit-transition: .3s ease-out all;
+  	transition: .3s ease-out all;
+	padding-top: 290px;
 }
 
 .bird {
-	padding: 2px 15px 2px 15px;
+	padding: 5px 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	border-radius: 15px;
-	border: 3px solid #666;
+	margin: 5px;
+	cursor: pointer;
+	color: white;
 }
 
 li.month{
   text-align: center;
 }
-li.total {
+li.total,
+li.year {
   text-align: center;
   font-size: 35px;
 }
 
-.bird.january {
-	background-color: Turquoise;
+.january {
+	background-color: #3498db;
 }
-.bird.february {
-	background-color: Silver;
+.february {
+	background-color: #95a5a6;
 }
-.bird.march {
-	background-color: Red;
+.march {
+	background-color: #34495e;
 }
-.bird.april {
-	background-color: Brown;
+.april {
+	background-color: #c0392b;
 }
-.bird.may {
+.may {
 	background-color: Orange;
 }
-.bird.june {
-	background-color: Yellow;
+.june {
+	background-color: #16a085;
 }
-.bird.july {
-	background-color: Gold;	
+.july {
+	background-color: #f1c40f;	
 }
-.bird.august{
-	color: White;
-	background-color: Purple;
+.august{
+	background-color: #e74c3c;
 }
-.bird.september{
-	background-color: Pink;
+.september{
+	background-color: #7f8c8d;
 }
-.bird.october{
-	color: White;
-	background-color: Blue;
+.october{
+	background-color: #d35400;
 }
-.bird.november{
-	color: White;
-	background-color: Black;
+.november{
+	background-color: #8e44ad;
 }
-.bird.december{
-	background-color: Green;
+.december{
+	background-color: #27ae60;
 }
 .bird.lifer {
-	border-color: goldenrod;
+	color: black;
 }
 .clearfix:before,
 .clearfix:after {
@@ -143,4 +201,43 @@ li.total {
 }
 .clearfix:after {
     clear: both;
+}
+
+.graphmode .bird-table .month {
+	display:none;
+}
+.graphmode .bird-table li {
+	margin: 0;
+	border-radius:0;
+	padding:0;
+	height: 3px;
+}
+.graphmode .bird-table li span {
+	display: none;
+}
+.graphmode .bird-table .year{
+	position: absolute;
+	bottom:0;
+	left: 40%;
+}
+.graphmode .bird-table .total {
+	top: -50px;
+	position: relative;
+}
+
+.graphmode .listHolderHolder {
+	margin-top: 50px;	
+}
+
+.graphmode .listHolder {
+	vertical-align: bottom;
+	position: relative;
+}
+
+.graphmode .bird-info-bar, .graphmode .bird-info-bar-container {
+	display: none;
+}
+
+.graphmode .bird {
+	cursor: inherit;
 }
