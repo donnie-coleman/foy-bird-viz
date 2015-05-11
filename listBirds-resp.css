@@ -7,14 +7,14 @@
   }
   #search, .top .button-grp {
   	display: block;
-  	margin: 0 auto;
+  	margin: 10px auto;
   	text-align: center;
   }
    .top .button-grp {
-   	margin-top: 10px;
+	margin-top: 10px;
    }
    .bird-info-bar {
-   	 top: 100px;
+   	top: 100px;
    }
    .listHolder {
    	height: 220px;
@@ -26,6 +26,9 @@
    	padding-top: 340px;
    }
    .slide.listHolderHolder.showInfo {
-   	margin-top:  110px;
+	margin-top: 110px;
+   }
+   .listHolderHolder{
+	width: 197%;
    }
 }
