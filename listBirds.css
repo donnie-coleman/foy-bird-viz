@@ -31,16 +31,11 @@ body {
 	position: fixed;
 	z-index: 50;
 }
-
 .controls {
 	height: 50px;
 	background-color: #9DD2D7;
 	padding: 10px;
-	z-index: 100;
-	position: absolute;
 	text-align: right;
-	right: 0;
-	width: 100%;
 }
 .controls input[type=search]{
 	width: 300px;
