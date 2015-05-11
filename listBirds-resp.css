@@ -1,0 +1,31 @@
+@media (max-width: 815px) {
+  .controls {
+  	height: 100px;
+  }
+  .top {
+  	text-align: center;
+  }
+  #search, .top .button-grp {
+  	display: block;
+  	margin: 0 auto;
+  	text-align: center;
+  }
+   .top .button-grp {
+   	margin-top: 10px;
+   }
+   .bird-info-bar {
+   	 top: 100px;
+   }
+   .listHolder {
+   	height: 220px;
+   }
+   ol.bird-table {
+   	padding-top: 120px;
+   }
+   ol.bird-table.showInfo {
+   	padding-top: 340px;
+   }
+   .slide.listHolderHolder.showInfo {
+   	margin-top:  110px;
+   }
+}
