@@ -192,7 +192,10 @@ li.year {
 	background-color: #27ae60;
 }
 .bird.lifer {
-	color: black;
+	text-decoration: overline;
+}
+.bird.lifer span {
+	border-bottom: 1px solid white;
 }
 .clearfix:before,
 .clearfix:after {
