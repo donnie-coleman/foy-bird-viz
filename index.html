@@ -69,8 +69,8 @@
 
 	<script type="text/ng-template" id="infocontainer.html">
 		<div class="listHolder" ng-class="{empty:!bird}">
-				<div ng-if="bird" class="info {{ formatMonth(bird.month) | lowercase }}">
-					<ol>	
+				<div class="info {{ formatMonth(bird.month) | lowercase }}">
+					<ol ng-if="bird">
 						<li ng-bind="bird.bird"></li>
 						<li ng-class="{selected: bird.year == year.year}"><span ng-bind="formatDate(bird)"></span> (d. <span ng-bind="bird.doy"></span>)
 							<ul>
@@ -81,7 +81,7 @@
 							</ul>
 						</li>
 					</ol>
-			</div>
+				</div>
 		</div>
 	</script>
   </body>

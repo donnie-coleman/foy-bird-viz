@@ -24,6 +24,7 @@
 
 			  scope.$on('birdSelected', function(event, bird){
 			     scope.bird = _.findWhere(scope.year.birds, {bird:bird.bird});
+			     //scope.bird = scope.bird || scope.year.birds[0];
 			  });
 			}
 		};
