@@ -94,7 +94,6 @@ body {
 	height: 195px;
 }
 .listHolder.empty {
-	border: 1px dashed #49463F;
 	opacity: .5;
 	background-color: #49463F;
 }
