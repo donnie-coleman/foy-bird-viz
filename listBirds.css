@@ -127,7 +127,7 @@ ol {
 ol.bird-table {
 	-webkit-transition: .3s ease-out all;
   	transition: .3s ease-out all;
-	padding-top: 70px;
+	padding-top: 90px;
 }
 ol.bird-table.showInfo {
 	-webkit-transition: .3s ease-out all;
@@ -152,6 +152,13 @@ li.total,
 li.year {
   text-align: center;
   font-size: 35px;
+}
+li.timestamp {
+	text-align: center;
+	font-size: 12px;
+}
+li.timestamp a {
+	color: #999;
 }
 
 .january {
@@ -216,6 +223,10 @@ li.year {
 }
 .graphmode .bird-table li span {
 	display: none;
+}
+.graphmode .bird-table .timestamp {
+	position: relative;
+	top: -10px;
 }
 .graphmode .bird-table .year{
 	position: absolute;

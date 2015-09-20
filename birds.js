@@ -7,8 +7,8 @@
 		scope.birdLists = [];
 		scope.drawerState = false;
 		scope.initBird = "";
-		scope.csv = [];
- 
+		scope.currentBird = "";
+
 		//populate the birdLists
 		//select the first bird in the latest list
 		$q.all(birdService.getBirds())
@@ -19,13 +19,23 @@
 		  		scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
 		  });   
 
+		scope.refreshList = function (list) {
+			var year = list.year;
+			birdService.getBirdsByYear(year)
+			.then(function(data){
+				var index = _.findIndex(scope.birdLists, {year:year});
+				scope.birdLists[index] = data;
+				scope.initBird = scope.currentBird;
+			});
+		};
+
 		scope.selectBird = function(bird, doNotToggleDrawer){
 			if(scope.showGraph) return null;
 			var selected = typeof bird == 'string'? JSON.parse(bird):bird;
 
 			scope.$broadcast('birdSelected', selected);
 			if(!doNotToggleDrawer && !scope.drawerState) scope.toggleDrawer();
-
+			scope.currentBird = selected;
 			return selected;
 		};
 

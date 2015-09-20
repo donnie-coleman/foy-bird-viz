@@ -14,15 +14,28 @@
 		  	var promises = [];
 			//obtain a promise for each bird list
 			_.each(keys, function(element, index, list){
-					promises.push(getBirdsByKey(element.key)
-				  		             .then(function(data){
-									 	return data;
-									 }));
+				//if cached and cache valid
+					//return promise fulfilled by cache
+				//else
+					promises.push(getBirdsByKey(element.key));
 			});
 	    	return promises;
 		};
 
+		var getBirdsByYear = function (year){
+			var element = _.findWhere(keys, {year:year.toString()});
+			return getBirdsByKey(element.key);
+		};
+
 		var getBirdsByKey = function (key){
+			return _getBirdsByKey(key)
+			.then(function(data){
+				//cache data
+				return data;
+			});
+		};
+
+		var _getBirdsByKey = function (key){
 			return $http({
 			    url: url_start+key+url_end,
 			    method: "JSONP"
@@ -87,9 +100,13 @@
 							 );
 			}
 			
-			return {year:curr_year, birds:birds, total:i, byMonth:_.groupBy(birds,'month')};
+			return {year:curr_year, birds:birds, total:i, byMonth:_.groupBy(birds,'month'), timestamp: new Date()};
 		}
 
-		return {getBirds:getBirds};
+		return {
+			getBirds:getBirds,
+			getBirdsByYear:getBirdsByYear,
+			getBirdsByKey:getBirdsByKey
+		};
 	}]);
 })();
