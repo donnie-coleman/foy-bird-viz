@@ -5,7 +5,9 @@
 		var getBirds = function (){
 		  	return birdParser.getBirds();
 		};
-
-		return {getBirds:getBirds};
+		var getBirdsByYear = function (year){
+			return birdParser.getBirdsByYear(year);
+		}
+		return {getBirds:getBirds, getBirdsByYear:getBirdsByYear};
 	}]);
 })();

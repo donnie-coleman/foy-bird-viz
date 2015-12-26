@@ -11,7 +11,8 @@
 		   reverse: '@',
 		   lifers: '@',
 		   drawerState: '=',
-		   select: '&' //invoke method on parent scope
+		   select: '&', //invoke method on parent scope
+		   refresh: '&'
 	     },
 	  	 templateUrl: 'allbirds.html',
 	  	 link: function(scope,element, attr) {
