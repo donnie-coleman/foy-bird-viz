@@ -109,7 +109,6 @@ body {
 	cursor: pointer;
 }
 
-
 .info ul {
 	margin-top: 0;
 	padding-left: 20px;
@@ -121,18 +120,16 @@ ol {
 	
 	list-style: none;
 }
-.bird-table li{
-	margin-bottom: 5px;
-}
+
 ol.bird-table {
 	-webkit-transition: .3s ease-out all;
   	transition: .3s ease-out all;
-	padding-top: 90px;
+	padding-top: 70px;
 }
 ol.bird-table.showInfo {
 	-webkit-transition: .3s ease-out all;
   	transition: .3s ease-out all;
-	padding-top: 290px;
+	padding-top: 270px;
 }
 
 .bird {
@@ -153,12 +150,14 @@ li.year {
   text-align: center;
   font-size: 35px;
 }
-li.timestamp {
-	text-align: center;
-	font-size: 12px;
+.hidden-space {
+	visibility: hidden;
 }
-li.timestamp a {
+span.timestamp,
+a.timestamp {
 	color: #999;
+	text-decoration: none;
+	font-size: 14px;
 }
 
 .january {
@@ -224,9 +223,12 @@ li.timestamp a {
 .graphmode .bird-table li span {
 	display: none;
 }
-.graphmode .bird-table .timestamp {
-	position: relative;
-	top: -10px;
+.graphmode .bird-table li.year span,
+.graphmode .bird-table li.year span {
+	display: inline-block;
+}
+.graphmode .bird-table li.year span.hidden-space {
+	display: none;
 }
 .graphmode .bird-table .year{
 	position: absolute;

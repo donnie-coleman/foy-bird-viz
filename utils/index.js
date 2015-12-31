@@ -46,7 +46,7 @@
 			minutes = minutes < 10 ? '0'+minutes : minutes;
 			seconds = seconds < 10 ? '0'+seconds : seconds;
 			var strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-			return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+			return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
 		}
 	});
 })();
