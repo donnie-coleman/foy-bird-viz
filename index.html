@@ -6,6 +6,7 @@
   <body ng-controller="BirdsCtrl">
   	<div class="top">
   		<div class="controls">
+			<bird-suggestion ng-show="suggestedBird" bird="suggestedBird" select="selectBird(b)" next="getNextSuggestion(direction)"></bird-suggestion>
 		    <input class="clearfix"  id="search" type="search" placeholder="Search by Name, Notes" ng-model="birdName" />
 		    <span class="button-grp">
 				<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
@@ -43,6 +44,9 @@
 	
    	<script src="bird-list/index.js" type="text/javascript"></script>
    	<script src="bird-list/bird-list.js" type="text/javascript"></script>
+
+	<script src="bird-suggestion/index.js" type="text/javascript"></script>
+	<script src="bird-suggestion/bird-suggestion.js" type="text/javascript"></script>
 
 	<script src="utils/index.js" type="text/javascript"></script>
 
@@ -84,5 +88,16 @@
 				</div>
 		</div>
 	</script>
+
+    <script type="text/ng-template" id="suggestion.html">
+        <ol class="suggestion">
+			<li class="bird refresh left" ng-click="next({direction:true})">&larr;</li>
+
+			<li class="bird suggest {{ bird.month | monthName | lowercase }}" ng-class="{lifer:bird.lifer}" ng-click="select({b:bird})" >
+                <span class="bird-name" ng-bind="bird.bird"></span>&nbsp;<span ng-bind="bird.month+1"></span>/<span ng-bind="bird.date"></span>/<span ng-bind="bird.year"></span>
+            </li>
+            <li class="bird refresh right" ng-click="next()">&rarr;</li>
+        </ol>
+    </script>
   </body>
 </html>

@@ -1,15 +1,19 @@
 (function(){
 	Date.prototype.getDOY = function() {
-	  var onejan = new Date(this.getFullYear(),0,1);
-	  return Math.ceil((this - onejan) / 86400000);
-	}
+		var simpleDate = new Date(this.getFullYear(), this.getMonth(), this.getDate());
+		var onejan = new Date(this.getFullYear(),0,1,0,0,0,0);
+		return Math.ceil(((simpleDate - onejan) / (8.64e7)+1));
+	};
 
 	angular
 	.module('bird-service')
 	.service('birdParser', ['$http','googleSpreadsheetKeys', function($http, keys) {
 		var url_start = "https://spreadsheets.google.com/feeds/list/";
 		var url_end = "/1/public/values?alt=json-in-script&callback=JSON_CALLBACK";
-		
+		var today = new Date().getDOY();
+    var d = 7;
+    var y = 365;
+
 		var getBirds = function (){
 		  	var promises = [];
 			//obtain a promise for each bird list
@@ -74,17 +78,17 @@
 					notes = entry[NOTES_COL] ? entry[NOTES_COL].$t : null,
 					lifer = entry[LIFER_COL] && entry[LIFER_COL].$t ? true : false;
 
-			  	if(date && (previousDate != date)){
-			  		var d = new Date(date);
-			  		if(!isNaN(d)){		
-			  			previousDate = date;
-				  		curr_day = d.getDay();
-				  		curr_month = d.getMonth();
-						curr_year = d.getFullYear();
-						curr_date = d.getDate();
-				  		dayOfYear = d.getDOY();
-					}
-			  	}
+           if (date && (previousDate != date)) {
+             var d = new Date(date);
+             if (!isNaN(d)) {
+               previousDate = date;
+               curr_day = d.getDay();
+               curr_month = d.getMonth();
+               curr_year = d.getFullYear();
+               curr_date = d.getDate();
+               dayOfYear = d.getDOY();
+             }
+           }
 
 				birds.push({ doy: dayOfYear,
 								bird: bird,
@@ -96,12 +100,18 @@
 								location: loc,
 								locationDesc: locDesc,
 								notes: notes,
-								index:i}
+								index:i,
+								withinComparisonWindow: withinComparisonWindow(dayOfYear, today)}
 							 );
 			}
 			
 			return {year:curr_year, birds:birds, total:i, byMonth:_.groupBy(birds,'month'), timestamp: new Date()};
-		}
+		};
+
+    function withinComparisonWindow(x, today) {
+      return (((today - d) <= (x + y)) && ((x + y) <= (today + d)))
+        || (((today - d) <= x)) && ((x <= (today + d)) );
+    }
 
 		return {
 			getBirds:getBirds,

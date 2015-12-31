@@ -139,7 +139,7 @@ ol.bird-table.showInfo {
 	padding: 5px 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
-	border-radius: 15px;
+	border-radius: 5px;
 	margin: 5px;
 	cursor: pointer;
 	color: white;
@@ -253,4 +253,30 @@ li.timestamp a {
 
 .graphmode .bird {
 	cursor: inherit;
+}
+
+.suggestion li{
+	float: left;
+}
+
+.suggestion .bird {
+	margin: -5px 0 0;
+}
+
+.suggestion .bird.refresh.left {
+	margin-left: 25px;
+	margin-right: 5px;
+}
+.suggestion .bird.refresh.right {
+	margin-left: 5px;
+}
+
+.suggestion .suggest {
+	width: 20%;
+	text-align: left;
+}
+
+.suggestion .bird.refresh {
+    margin-left: 0;
+	background-color: #888;
 }
