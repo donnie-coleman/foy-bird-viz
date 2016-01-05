@@ -71,7 +71,7 @@
 				<div class="info {{ formatMonth(bird.month) | lowercase }}">
 					<ol ng-if="bird">
 						<li ng-bind="bird.bird"></li>
-						<li ng-class="{selected: bird.year == year.year}"><span ng-bind="formatDate(bird)"></span> (d. <span ng-bind="bird.doy"></span>)
+						<li ng-class="{selected: bird.year == year.year}"><span ng-bind="formatDate(bird)"></span> (d. <span ng-bind="bird.doy+1"></span>)
 							<ul>
 								<li ng-show="bird.location" ng-bind="bird.location"></li>
 								<li ng-show="bird.locationDesc" ng-bind="bird.locationDesc"></li>
