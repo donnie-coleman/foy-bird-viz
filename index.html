@@ -55,8 +55,7 @@
 	<script type="text/ng-template" id="allbirds.html">
 		<div>
 			<ol class="bird-table" ng-class="{showInfo:drawerState}">
-				<li class="timestamp"><a href="#" ng-bind="::year.timestamp | timestamp" ng-click="refresh({y:year})"></a></li>
-				<li class="year" ng-bind="::year.year"></li>
+				<li class="year"><span class="timestamp hidden-space">&orarr;</span><span ng-bind="::year.year"></span><a class="timestamp" href="#" ng-click="refresh({y:year})" title="Last Refresh: {{::year.timestamp|timestamp}}">&orarr;</a></li>
 				<li ng-if="lifers=='true'" class="total">{{(year.birds | filter: birdName | filter: lifers ).length}} Birds</li>
 				<li ng-if="lifers=='false'" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
 			    <ng-include src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
@@ -76,7 +75,7 @@
 				<div class="info {{ formatMonth(bird.month) | lowercase }}">
 					<ol ng-if="bird">
 						<li ng-bind="bird.bird"></li>
-						<li ng-class="{selected: bird.year == year.year}"><span ng-bind="formatDate(bird)"></span> (d. <span ng-bind="bird.doy"></span>)
+						<li ng-class="{selected: bird.year == year.year}"><span ng-bind="formatDate(bird)"></span> (d. <span ng-bind="bird.doy+1"></span>)
 							<ul>
 								<li ng-show="bird.location" ng-bind="bird.location"></li>
 								<li ng-show="bird.locationDesc" ng-bind="bird.locationDesc"></li>

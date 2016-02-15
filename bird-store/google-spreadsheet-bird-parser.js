@@ -26,71 +26,72 @@
 	    	return promises;
 		};
 
-		var getBirdsByYear = function (year){
-			var element = _.findWhere(keys, {year:year.toString()});
-			return getBirdsByKey(element.key);
-		};
+      var getBirdsByYear = function (year) {
+        var element = _.findWhere(keys, {year: year.toString()});
+        return getBirdsByKey(element.key);
+      };
 
-		var getBirdsByKey = function (key){
-			return _getBirdsByKey(key)
-			.then(function(data){
-				//cache data
-				return data;
-			});
-		};
+      var getBirdsByKey = function (key) {
+        return _getBirdsByKey(key)
+          .then(function (data) {
+            //cache data
+            return data;
+          });
+      };
 
-		var _getBirdsByKey = function (key){
-			return $http({
-			    url: url_start+key+url_end,
-			    method: "JSONP"
-			})
-			.then(function(data, status, headers, config) {
-			    return processBirds(data.data);
-			});
-		};
-		
-		var processBirds = function (json){
-		   var  birds = [],
-				feed = json.feed,
-				entries = feed.entry || [],
-				COL_PREFIX = 'gsx$',
-				DATE_COL = COL_PREFIX+'date',
-				BIRD_COL = COL_PREFIX+'bird',
-				LOCATION_COL = COL_PREFIX+'location',
-				LOCATION_DESC_COL = COL_PREFIX+'locationdescription',
-				NOTES_COL = COL_PREFIX+'notes',
-				LIFER_COL = COL_PREFIX+'lifebird',
-				length = entries.length,
-				previousDate,
-				previousMonth = 1,
-				curr_day,
-				curr_month,
-				curr_year,
-				curr_date,
-				dayOfYear;	
+      var _getBirdsByKey = function (key) {
+        return $http({
+          url: url_start + key + url_end,
+          method: "JSONP"
+        })
+          .then(function (data, status, headers, config) {
+            return processBirds(data.data);
+          });
+      };
 
-		   for (var i = 0; i < length; i++) {
-		    	var entry = entries[i],
-					bird = entry[BIRD_COL].$t,
-					date = entry[DATE_COL].$t,
-					loc = entry[LOCATION_COL].$t,
-					locDesc = entry[LOCATION_DESC_COL] ? entry[LOCATION_DESC_COL].$t : null,
-					notes = entry[NOTES_COL] ? entry[NOTES_COL].$t : null,
-					lifer = entry[LIFER_COL] && entry[LIFER_COL].$t ? true : false;
+      var processBirds = function (json) {
+        var birds = [],
+          feed = json.feed,
+          entries = feed.entry || [],
+          COL_PREFIX = 'gsx$',
+          DATE_COL = COL_PREFIX + 'date',
+          BIRD_COL = COL_PREFIX + 'bird',
+          LOCATION_COL = COL_PREFIX + 'location',
+          LOCATION_DESC_COL = COL_PREFIX + 'locationdescription',
+          NOTES_COL = COL_PREFIX + 'notes',
+          LIFER_COL = COL_PREFIX + 'lifebird',
+          length = entries.length,
+          previousDate,
+          previousMonth = 1,
+          curr_day,
+          curr_month,
+          curr_year,
+          curr_date,
+          dayOfYear;
 
-           if (date && (previousDate != date)) {
-             var d = new Date(date);
-             if (!isNaN(d)) {
-               previousDate = date;
-               curr_day = d.getDay();
-               curr_month = d.getMonth();
-               curr_year = d.getFullYear();
-               curr_date = d.getDate();
-               dayOfYear = d.getDOY();
-             }
-           }
+        for (var i = 0; i < length; i++) {
+          var entry = entries[i],
+            bird = entry[BIRD_COL].$t,
+            date = entry[DATE_COL].$t,
+            loc = entry[LOCATION_COL].$t,
+            locDesc = entry[LOCATION_DESC_COL] ? entry[LOCATION_DESC_COL].$t : null,
+            notes = entry[NOTES_COL] ? entry[NOTES_COL].$t : null,
+            lifer = entry[LIFER_COL] && entry[LIFER_COL].$t ? true : false;
 
-				birds.push({ doy: dayOfYear,
+          if (date && (previousDate != date)) {
+            var d = new Date(date);
+            if (!isNaN(d)) {
+              previousDate = date;
+              curr_day = d.getDay();
+              curr_month = d.getMonth();
+              curr_year = d.getFullYear();
+              curr_date = d.getDate();
+              dayOfYear = d.getDOY();
+            }
+          }
+
+				birds.push({
+                doy: dayOfYear,
 								bird: bird,
 								month: curr_month,
 								year: curr_year,
@@ -104,7 +105,7 @@
 								withinComparisonWindow: withinComparisonWindow(dayOfYear, today)}
 							 );
 			}
-			
+
 			return {year:curr_year, birds:birds, total:i, byMonth:_.groupBy(birds,'month'), timestamp: new Date()};
 		};
 
@@ -113,10 +114,10 @@
         || (((today - d) <= x)) && ((x <= (today + d)) );
     }
 
-		return {
-			getBirds:getBirds,
-			getBirdsByYear:getBirdsByYear,
-			getBirdsByKey:getBirdsByKey
-		};
-	}]);
+      return {
+        getBirds: getBirds,
+        getBirdsByYear: getBirdsByYear,
+        getBirdsByKey: getBirdsByKey
+      };
+    }]);
 })();
