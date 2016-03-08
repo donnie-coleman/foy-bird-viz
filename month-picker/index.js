@@ -1,0 +1,2 @@
+angular
+  .module('month-picker', []);

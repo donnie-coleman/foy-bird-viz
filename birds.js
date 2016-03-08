@@ -1,6 +1,6 @@
 (function(){
 	angular
-	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info'])
+	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker'])
 	.controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
 		scope.reverse = true;
 		scope.lifers = false;
@@ -8,6 +8,7 @@
 		scope.drawerState = false;
 		scope.initBird = "";
 		scope.currentBird = "";
+		scope.selectedMonths = [];
 
 		//populate the birdLists
 		//select the first bird in the latest list

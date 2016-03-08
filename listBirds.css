@@ -39,7 +39,6 @@ body {
 	z-index: 100;
 	position: absolute;
 	text-align: right;
-	right: 0;
 	width: 100%;
 }
 .controls input[type=search]{
@@ -255,4 +254,26 @@ a.timestamp {
 
 .graphmode .bird {
 	cursor: inherit;
+}
+
+.month-picker {
+	float:left;
+}
+
+.month-picker div {
+	width: 30px;
+	overflow: hidden;
+	float:left;
+	cursor: pointer;
+	margin-left: 1px;
+	text-align: center;
+	border-radius: 20px;
+}
+
+.month-picker div.inactive {
+	background-color: white;
+}
+
+.month-picker div:after {
+	clear: both;
 }
