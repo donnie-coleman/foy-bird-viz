@@ -161,39 +161,51 @@ a.timestamp {
 
 .january {
 	background-color: #3498db;
+    border-color: #3498db;
 }
 .february {
 	background-color: #95a5a6;
+    border-color: #95a5a6;
 }
 .march {
 	background-color: #34495e;
+    border-color: #34495e;
 }
 .april {
 	background-color: #c0392b;
+    border-color: #c0392b;
 }
 .may {
 	background-color: Orange;
+    border-color: Orange;
 }
 .june {
 	background-color: #16a085;
+    border-color: #16a085;
 }
 .july {
-	background-color: #f1c40f;	
+	background-color: #f1c40f;
+    border-color: #f1c40f;
 }
 .august{
 	background-color: #e74c3c;
+    border-color: #e74c3c;
 }
 .september{
 	background-color: #7f8c8d;
+    border-color: #7f8c8d;
 }
 .october{
 	background-color: #d35400;
+    border-color: #d35400;
 }
 .november{
 	background-color: #8e44ad;
+    border-color: #8e44ad;
 }
 .december{
 	background-color: #27ae60;
+    border-color: #27ae60;
 }
 .bird.lifer {
 	text-decoration: overline;
@@ -261,13 +273,16 @@ a.timestamp {
 }
 
 .month-picker div {
-	width: 30px;
+	width: 28px;
 	overflow: hidden;
 	float:left;
 	cursor: pointer;
 	margin-left: 1px;
 	text-align: center;
-	border-radius: 20px;
+	border-radius: 18px;
+	border-width: 2px;
+	border-style: solid;
+	-webkit-user-select: none;
 }
 
 .month-picker div.inactive {
