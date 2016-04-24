@@ -9,6 +9,7 @@ body {
 	min-width: 700px;
 	position: relative
 	height: 100%;
+	–webkit-overflow-scrolling: touch;
 }
 #birdGraph {
 	margin: 80px;
