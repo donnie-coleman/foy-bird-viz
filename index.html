@@ -1,18 +1,25 @@
 <!doctype html>
 <html>
   <head>
+      <meta name = "viewport" content = "width = 400">
+      <meta name = "viewport" content = "minimum-scale = 1.0, maximum-scale = 1.0">
+      <meta name = "viewport" content = "initial-scale = 1.0, user-scalable = no">
 	<link href="listBirds.css" rel="stylesheet" type="text/css">
 	<link href="listBirds-resp.css" rel="stylesheet" type="text/css">
   </head>
   <body ng-controller="BirdsCtrl">
   	<div class="top">
   		<div class="controls">
-		    <input class="clearfix"  id="search" type="search" placeholder="Search by Name, Notes" ng-model="birdName" />
-		    <span class="button-grp">
+			<month-picker selected-months="selectedMonths"></month-picker>
+
+		    <span class="button-grp" ng-if="!iOS">
 				<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
 				<input class="clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
 				<input class="clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
 			</span>
+			<form>
+				<input class="clearfix"  id="search" type="search" name="search" placeholder="Search by Name, Notes" ng-model="birdName" />
+			</form>
 		</div>
 	</div>
 
@@ -25,7 +32,7 @@
 
 		<div class="listHolderHolder years">
 		    <div class="listHolder" ng-repeat="year in birdLists | reverseOrder:true">
-				<bird-list year="year" drawer-state="drawerState" bird-name="{{birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" select="selectBird(b)" refresh="refreshList(year)"></bird-list>
+				<bird-list selected-months="selectedMonths" year="year" drawer-state="drawerState" bird-name="{{birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" select="selectBird(b)" refresh="refreshList(year)"></bird-list>
 		    </div>
 		</div>
 	</span>
@@ -45,6 +52,9 @@
    	<script src="bird-list/index.js" type="text/javascript"></script>
    	<script src="bird-list/bird-list.js" type="text/javascript"></script>
 
+	<script src="month-picker/index.js" type="text/javascript"></script>
+	<script src="month-picker/month-picker.js" type="text/javascript"></script>
+
 	<script src="utils/index.js" type="text/javascript"></script>
 
    	<script src="birds.js" type="text/javascript"></script>
@@ -53,9 +63,9 @@
 		<div>
 			<ol class="bird-table" ng-class="{showInfo:drawerState}">
 				<li class="year"><span class="timestamp hidden-space">&orarr;</span><span ng-bind="::year.year"></span><a class="timestamp" href="#" ng-click="refresh({y:year})" title="Last Refresh: {{::year.timestamp|timestamp}}">&orarr;</a></li>
-				<li ng-if="lifers=='true'" class="total">{{(year.birds | filter: birdName | filter: lifers ).length}} Birds</li>
-				<li ng-if="lifers=='false'" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
-			    <ng-include src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
+				<li ng-if="lifers=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: lifers ).length}} Birds</li>
+				<li ng-if="lifers=='false' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
+			    <ng-include ng-if="!isMonthHidden(formatMonth(month[0].month))" src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
 			</ol>
 		</div>
 	</script>
@@ -82,6 +92,15 @@
 						</li>
 					</ol>
 				</div>
+		</div>
+	</script>
+
+  	<script type="text/ng-template" id="monthpicker.html">
+		<div class="month-picker-container">
+			<div class="month-picker">
+				<month-picker-month month="month" ng-repeat="month in months"></month-picker-month>
+				<div class="remove" ng-click="removeAll()" title="Show all months">x</div>
+			</div>
 		</div>
 	</script>
   </body>
