@@ -32,9 +32,7 @@
         else if (year < min) {
           year = min;
         }
-        else if (year < _.min(keys, function(key) { return key.year}).year) {
-          year = year++;
-        }
+
         var element = _.findWhere(keys, {year: year.toString()});
         return getBirdsByKey(element.key);
       };
