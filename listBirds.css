@@ -6,7 +6,6 @@ body {
 	color: #333;
 	padding: 0;
 	margin: 0;
-	min-width: 700px;
 }
 #birdGraph {
 	margin: 80px;
@@ -37,13 +36,18 @@ body {
 	background-color: #9DD2D7;
 	padding: 10px;
 	z-index: 100;
-	position: absolute;
+	position: fixed;
 	text-align: right;
 	width: 100%;
 }
 .controls input[type=search]{
 	width: 300px;
+	float: right;
 	font-size: large;
+}
+.controls .button-grp {
+	float:right;
+	margin-right: 20px;
 }
 .controls input[type=checkbox] {
 	display: none;
@@ -80,16 +84,14 @@ body {
 	float: left;
 }
 .listHolderHolder {
-	margin: 0 10px;
 	display: table;
 	table-layout: fixed;
-	width: 99%;
+	width: 100%;
 	z-index: 5;
 }
 .listHolder {
 	display: table-cell;
 	width: auto;
-	max-width: 33%;
 	height: 195px;
 }
 .listHolder.empty {
@@ -116,7 +118,6 @@ body {
 ol {
 	padding: 0;
 	margin:0;
-	
 	list-style: none;
 }
 
@@ -269,26 +270,58 @@ a.timestamp {
 }
 
 .month-picker {
+	width: 385px;
 	float:left;
+	display: table;
 }
 
 .month-picker div {
-	width: 28px;
 	overflow: hidden;
 	float:left;
 	cursor: pointer;
-	margin-left: 1px;
 	text-align: center;
 	border-radius: 18px;
 	border-width: 2px;
 	border-style: solid;
 	-webkit-user-select: none;
+	line-height: 18px;
+	color: white;
+	display: table-cell;
+	box-sizing: border-box;
+	width: 7.6%;
 }
 
 .month-picker div.inactive {
 	background-color: white;
+	color: inherit;
+}
+
+.month-picker div.remove {
+	border-color: #333;
+	color: #333;
 }
 
 .month-picker div:after {
 	clear: both;
+}
+
+@media (max-width: 1100px) {
+	.month-picker-container {
+		width: 100%;
+	}
+	.month-picker{
+		width: 100%;
+		float: none;
+	}
+	.controls input[type=search] {
+		float: none;
+		font-size: small;
+	}
+	.controls {
+		text-align: center;
+		padding: 0;
+	}
+	.controls .button-grp {
+		display: none;
+	}
 }

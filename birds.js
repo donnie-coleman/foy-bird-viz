@@ -9,10 +9,14 @@
 		scope.initBird = "";
 		scope.currentBird = "";
 		scope.selectedMonths = [];
+		scope.iOS =  /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 		//populate the birdLists
 		//select the first bird in the latest list
-		$q.all(birdService.getBirds())
+
+		var func = scope.iOS ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
+
+		$q.all(func())
 		  .then(function(datas){
 		  		if(!datas.length) return;
 		  		scope.birdLists = datas;
