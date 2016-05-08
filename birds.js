@@ -1,6 +1,6 @@
 (function(){
 	angular
-	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker'])
+	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker', 'ngTouch'])
 	.controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
 		scope.reverse = true;
 		scope.lifers = false;
@@ -15,6 +15,19 @@
 		//select the first bird in the latest list
 
 		var func = scope.iOS ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
+
+		scope.loadMoar = function(plus) {
+			if(!scope.iOS) return;
+
+			var year = scope.birdLists[0].year;
+
+			if(plus){ year++; } else { year--; }
+
+			birdService.getBirdsByYear(year)
+				.then(function (data){
+					scope.birdLists = [data];
+				});
+		};
 
 		$q.all(func())
 		  .then(function(datas){

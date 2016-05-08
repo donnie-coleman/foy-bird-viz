@@ -23,8 +23,17 @@
       };
 
       var getBirdsByYear = function (year) {
-        if(!year){
-          year = _.max(keys, function(key) { return key.year}).year;
+        var max = _.max(keys, function(key) { return key.year}).year;
+        var min = _.min(keys, function(key) { return key.year}).year;
+
+        if(!year || year > max){
+          year = max;
+        }
+        else if (year < min) {
+          year = min;
+        }
+        else if (year < _.min(keys, function(key) { return key.year}).year) {
+          year = year++;
         }
         var element = _.findWhere(keys, {year: year.toString()});
         return getBirdsByKey(element.key);
