@@ -11,7 +11,7 @@
   		<div class="controls">
 			<month-picker selected-months="selectedMonths"></month-picker>
 
-		    <span class="button-grp" ng-if="!iOS">
+		    <span class="button-grp" ng-show="!iOS">
 				<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
 				<input class="clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
 				<input class="clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
