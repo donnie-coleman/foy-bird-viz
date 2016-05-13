@@ -72,7 +72,7 @@ body {
 	color: white;
 	height: inherit;
 	padding: 10px 0 0 10px;
-	border: 1px solid #F4F1EA;
+	border: 1px solid #F4F1EA !important;
 	border-top: none;
 	text-align: left;
 	border-bottom: none;
