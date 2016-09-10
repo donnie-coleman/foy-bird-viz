@@ -9,19 +9,19 @@
 		scope.initBird = "";
 		scope.currentBird = "";
 		scope.selectedMonths = [];
-		scope.iOS =  /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		scope.isHandheld = window.innerWidth <= 1100;
 
 		//populate the birdLists
 		//select the first bird in the latest list
 
-		var func = scope.iOS ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
+		var func = scope.isHandheld ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
 
-		scope.loadMoar = function(plus) {
-			if(!scope.iOS) return;
+		scope.loadNewYear = function(next) {
+			if(!scope.isHandheld) return;
 
 			var year = scope.birdLists[0].year;
 
-			if(plus){ year++; } else { year--; }
+			if(next){ year++; } else { year--; }
 
 			birdService.getBirdsByYear(year)
 				.then(function (data){

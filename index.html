@@ -11,7 +11,7 @@
   		<div class="controls">
 			<month-picker selected-months="selectedMonths"></month-picker>
 
-		    <span class="button-grp" ng-show="!iOS">
+		    <span class="button-grp" ng-show="!isHandheld">
 				<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
 				<input class="clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
 				<input class="clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 
-	<span ng-click ng-swipe-left="loadMoar(false)" ng-swipe-right="loadMoar(true)" ng-class="{'graphmode':showGraph}">
+	<span ng-click ng-swipe-left="loadNewYear(false)" ng-swipe-right="loadNewYear(true)" ng-class="{'graphmode':showGraph}">
 		<div class="bird-info-bar" ng-click="toggleDrawer()"></div>
 
 		<div class="bird-info-bar-container listHolderHolder slide" ng-click="toggleDrawer()" ng-class="{showInfo:drawerState}">
