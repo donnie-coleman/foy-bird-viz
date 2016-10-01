@@ -222,7 +222,6 @@ a.timestamp {
     clear: both;
 }
 .graphmode .bird.lifer {
-	border: none;
 	background-color: #FEFCFF !important;
 }
 .graphmode .bird-table .month {
