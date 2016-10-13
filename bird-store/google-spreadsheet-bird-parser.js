@@ -84,6 +84,8 @@
             notes = entry[NOTES_COL] ? entry[NOTES_COL].$t : null,
             lifer = entry[LIFER_COL] && entry[LIFER_COL].$t ? true : false;
 
+          if(loc.toUpperCase().indexOf('VT') === -1) continue; //only showing VT birds, for now...
+
           if (date && (previousDate != date)) {
             var d = new Date(date);
             if (!isNaN(d)) {
