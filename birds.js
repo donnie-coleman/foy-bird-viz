@@ -11,23 +11,6 @@
 		scope.selectedMonths = [];
 		scope.isHandheld = window.innerWidth <= 1100;
 
-    /* proof of concept --
-      fyi, the SHARING permissions on the spreadsheet must be set to "anyone" for non-OAuth to work
-      (doesn't matter about the publish permissions, which worked for the JSON api)
-    */
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: '1APZj3S2WgEXSta_J2mBbOmNIkW2oADYY7btGqW9A5JM',
-      range: 'Sheet1!A1:F'
-    })
-    .then(
-      function(response){
-        console.table(response);
-      },
-      function(response){
-        console.error("error occurred", response);
-      }
-    );
-
 		//populate the birdLists
 		//select the first bird in the latest list
 
@@ -47,12 +30,16 @@
 		};
 
 		$q.all(func())
-		  .then(function(datas){
+		  .then(
+		    function(datas){
 		  		if(!datas.length) return;
 		  		scope.birdLists = datas;
 		  		var latestList = _.last(scope.birdLists).birds;
 		  		scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
-		  });
+		    },
+        function(rejected){
+		      console.error("error...", rejected);
+        });
 
 		scope.refreshList = function (list) {
 			var year = list.year;

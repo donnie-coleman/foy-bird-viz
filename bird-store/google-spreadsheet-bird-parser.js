@@ -2,14 +2,11 @@
   Date.prototype.getDOY = function () {
     var onejan = new Date(this.getFullYear(), 0, 1);
     return Math.ceil((this - onejan) / 86400000);
-  }
+  };
 
   angular
     .module('bird-service')
     .service('birdParser', ['$http', 'googleSpreadsheetKeys', function ($http, keys) {
-      var url_start = "https://spreadsheets.google.com/feeds/list/";
-      var url_end = "/1/public/values?alt=json-in-script&callback=JSON_CALLBACK";
-
       var getBirds = function () {
         var promises = [];
         //obtain a promise for each bird list
@@ -46,45 +43,47 @@
       };
 
       var _getBirdsByKey = function (key) {
-        return $http({
-          url: url_start + key + url_end,
-          method: "JSONP"
+        return gapi.client.sheets.spreadsheets.values.get({
+          spreadsheetId: key,
+          range: 'A1:F'
         })
-          .then(function (data, status, headers, config) {
-            return processBirds(data.data);
-          });
+        .then(
+          function (data) {
+            return processBirds(data.result.values);
+          },
+          function (response){
+            console.error("gAPI error", response);
+            return $q.reject('error');
+          }
+        )
       };
 
-      var processBirds = function (json) {
+      var processBirds = function (entries) {
         var birds = [],
-          feed = json.feed,
-          entries = feed.entry || [],
-          COL_PREFIX = 'gsx$',
-          DATE_COL = COL_PREFIX + 'date',
-          BIRD_COL = COL_PREFIX + 'bird',
-          LOCATION_COL = COL_PREFIX + 'location',
-          LOCATION_DESC_COL = COL_PREFIX + 'locationdescription',
-          NOTES_COL = COL_PREFIX + 'notes',
-          LIFER_COL = COL_PREFIX + 'lifebird',
-          length = entries.length,
-          previousDate,
-          previousMonth = 1,
-          curr_day,
-          curr_month,
-          curr_year,
-          curr_date,
-          dayOfYear;
+            DATE_COL = 0,
+            BIRD_COL = 1,
+            LOCATION_COL = 2,
+            LOCATION_DESC_COL = 3,
+            NOTES_COL = 4,
+            LIFER_COL = 5,
+            length = entries.length,
+            previousDate,
+            curr_day,
+            curr_month,
+            curr_year,
+            curr_date,
+            dayOfYear;
 
-        for (var i = 0; i < length; i++) {
+        for (var i = 1; i < length; i++) {
           var entry = entries[i],
-            bird = entry[BIRD_COL].$t,
-            date = entry[DATE_COL].$t,
-            loc = entry[LOCATION_COL].$t,
-            locDesc = entry[LOCATION_DESC_COL] ? entry[LOCATION_DESC_COL].$t : null,
-            notes = entry[NOTES_COL] ? entry[NOTES_COL].$t : null,
-            lifer = entry[LIFER_COL] && entry[LIFER_COL].$t ? true : false;
+            bird = entry[BIRD_COL],
+            date = entry[DATE_COL],
+            loc = entry[LOCATION_COL],
+            locDesc = entry[LOCATION_DESC_COL] ? entry[LOCATION_DESC_COL] : null,
+            notes = entry[NOTES_COL] ? entry[NOTES_COL] : null,
+            lifer = entry[LIFER_COL] && entry[LIFER_COL] ? true : false;
 
-          if(loc.toUpperCase().indexOf('VT') === -1) continue; //only showing VT birds, for now...
+          if(!loc || !date || !bird || loc.toUpperCase().indexOf('VT') === -1) continue; //only showing VT birds, for now...
 
           if (date && (previousDate != date)) {
             var d = new Date(date);
@@ -115,7 +114,7 @@
         }
 
         return {year: curr_year, birds: birds, total: i, byMonth: _.groupBy(birds, 'month'), timestamp: new Date()};
-      }
+      };
 
       return {
         getBirds: getBirds,
