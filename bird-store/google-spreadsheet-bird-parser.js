@@ -2,23 +2,29 @@
   Date.prototype.getDOY = function () {
     var onejan = new Date(this.getFullYear(), 0, 1);
     return Math.ceil((this - onejan) / 86400000);
-  }
+  };
 
   angular
     .module('bird-service')
-    .service('birdParser', ['$http', 'googleSpreadsheetKeys', function ($http, keys) {
-      var url_start = "https://spreadsheets.google.com/feeds/list/";
-      var url_end = "/1/public/values?alt=json-in-script&callback=JSON_CALLBACK";
+    .service('birdParser', ['$http', 'googleSpreadsheetKeys', function ($http, googleSpreadsheet) {
+      const url_end = "?alt=json-in-script&callback=JSON_CALLBACK";
+      var keys;
+
+      var init = function (){
+        return googleSpreadsheet
+          .getWorksheetUrls()
+          .then(function(worksheetKeys){
+            keys = _.sortBy(worksheetKeys, function(worksheet) { return worksheet.year; });
+          });
+      };
 
       var getBirds = function () {
         var promises = [];
         //obtain a promise for each bird list
         _.each(keys, function (element, index, list) {
-          //if cached and cache valid
-          //return promise fulfilled by cache
-          //else
           promises.push(getBirdsByKey(element.key));
         });
+
         return promises;
       };
 
@@ -40,19 +46,19 @@
       var getBirdsByKey = function (key) {
         return _getBirdsByKey(key)
           .then(function (data) {
-            //cache data
+            // todo: cache data
             return data;
           });
       };
 
       var _getBirdsByKey = function (key) {
         return $http({
-          url: url_start + key + url_end,
+          url: key + url_end,
           method: "JSONP"
         })
-          .then(function (data, status, headers, config) {
-            return processBirds(data.data);
-          });
+        .then(function (data, status, headers, config) {
+          return processBirds(data.data);
+        });
       };
 
       var processBirds = function (json) {
@@ -115,9 +121,10 @@
         }
 
         return {year: curr_year, birds: birds, total: i, byMonth: _.groupBy(birds, 'month'), timestamp: new Date()};
-      }
+      };
 
       return {
+        init : init,
         getBirds: getBirds,
         getBirdsByYear: getBirdsByYear,
         getBirdsByKey: getBirdsByKey

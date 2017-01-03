@@ -1,14 +1,42 @@
 (function(){
-	angular
-	.module('bird-service')
-	.service('googleSpreadsheetKeys', [function (){
-		//TODO: order by year
-		return [{year:'2012', key:'0ApY2PdXZDxl2dFphWVRpazlmdmhWcXNNazRndmJ3VWc'},
-		        {year:'2013', key:'0ApY2PdXZDxl2dDAtdU5FX05saTJaYkNKb3ZzdDU5LXc'},
-		        {year:'2014', key:'0ApY2PdXZDxl2dG5WLU80RkI1aHpoQmpjX2R5NUVlWFE'},
-		        {year:'2015', key:'0ApY2PdXZDxl2dDFldExKTDdGejJfS1U5dHdWcFZVOXc'},
-		        {year:'2016', key:'1APZj3S2WgEXSta_J2mBbOmNIkW2oADYY7btGqW9A5JM'},
-			{year:'2017', key:'1e3Jrxj2PNqXwJ9z96LK1FzxYdg1Ate1bg2PDQ8vGXnI'}
-		];
-	}]);
+  angular
+  .module('bird-service')
+  .service('googleSpreadsheetKeys', ['$q', '$http', function ($q, $http){
+    const worksheetId = '1e3Jrxj2PNqXwJ9z96LK1FzxYdg1Ate1bg2PDQ8vGXnI',
+          worksheetUrl = `https://spreadsheets.google.com/feeds/worksheets/${worksheetId}/public/values?alt=json-in-script&callback=JSON_CALLBACK`;
+    var worksheets;
+
+    var fetchWorksheets = function (){
+      if(worksheets) {
+        console.log('returning cached worksheets');
+
+        var deferred = $q.defer();
+        deferred.resolve(worksheets);
+        return deferred.promise;
+      }
+      else {
+        console.log('fetching worksheets');
+
+        return $http({
+          url: worksheetUrl,
+          method: "JSONP"
+        })
+        .then(function (data, status, headers, config) {
+          return processWorksheets(data.data);
+        });
+      }
+    };
+
+    var processWorksheets = function (data){
+      var entries = data.feed.entry || [];
+
+      worksheets = entries.map(function (entry){
+        return {year:entry['title']['$t'], key:entry.link[0]['href']};
+      });
+
+      return worksheets;
+    };
+
+    return { getWorksheetUrls: fetchWorksheets };
+  }]);
 })();

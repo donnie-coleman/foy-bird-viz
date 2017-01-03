@@ -1,71 +1,76 @@
 (function(){
-	angular
-	.module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker', 'ngTouch'])
-	.controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
-		scope.reverse = true;
-		scope.lifers = false;
-		scope.birdLists = [];
-		scope.drawerState = false;
-		scope.initBird = "";
-		scope.currentBird = "";
-		scope.selectedMonths = [];
-		scope.isHandheld = window.innerWidth <= 1100;
+  angular
+  .module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker', 'ngTouch'])
+  .controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
+    scope.reverse = true;
+    scope.lifers = false;
+    scope.birdLists = [];
+    scope.drawerState = false;
+    scope.initBird = "";
+    scope.currentBird = "";
+    scope.selectedMonths = [];
+    scope.isHandheld = window.innerWidth <= 1100;
 
-		//populate the birdLists
-		//select the first bird in the latest list
+    // populate the birdLists
+    birdService
+      .init()
+      .then(function(){
+        var func = scope.isHandheld ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
 
-		var func = scope.isHandheld ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
+        $q.all(func())
+          .then(function(datas){
+            if(!datas.length) return;
+            scope.birdLists = datas;
 
-		scope.loadNewYear = function(next) {
-			if(!scope.isHandheld) return;
+            // select the first bird in the latest list
+            var latestList = _.last(scope.birdLists).birds;
+            scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
+          });
+      });
 
-			var year = scope.birdLists[0].year;
+    scope.loadNewYear = function(next) {
+      if(!scope.isHandheld) return;
 
-			if(next){ year++; } else { year--; }
+      var year = scope.birdLists[0].year;
 
-			birdService.getBirdsByYear(year)
-				.then(function (data){
-					scope.birdLists = [data];
-				});
-		};
+      if(next){ year++; } else { year--; }
 
-		$q.all(func())
-		  .then(function(datas){
-		  		if(!datas.length) return;
-		  		scope.birdLists = datas;
-		  		var latestList = _.last(scope.birdLists).birds;
-		  		scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
-		  });   
+      birdService
+        .getBirdsByYear(year)
+        .then(function (data){
+          scope.birdLists = [data];
+        });
+    };
 
-		scope.refreshList = function (list) {
-			var year = list.year;
-			birdService.getBirdsByYear(year)
-			.then(function(data){
-				var index = _.findIndex(scope.birdLists, {year:year});
-				scope.birdLists[index] = data;
-				scope.initBird = scope.currentBird;
-			});
-		};
+    scope.refreshList = function (list) {
+      var year = list.year;
+      birdService.getBirdsByYear(year)
+      .then(function(data){
+        var index = _.findIndex(scope.birdLists, {year:year});
+        scope.birdLists[index] = data;
+        scope.initBird = scope.currentBird;
+      });
+    };
 
-		scope.selectBird = function(bird, doNotToggleDrawer){
-			if(scope.showGraph) return null;
-			var selected = typeof bird == 'string'? JSON.parse(bird):bird;
+    scope.selectBird = function(bird, doNotToggleDrawer){
+      if(scope.showGraph) return null;
+      var selected = typeof bird == 'string'? JSON.parse(bird):bird;
 
-			scope.$broadcast('birdSelected', selected);
-			if(!doNotToggleDrawer && !scope.drawerState) scope.toggleDrawer();
-			scope.currentBird = selected;
-			return selected;
-		};
+      scope.$broadcast('birdSelected', selected);
+      if(!doNotToggleDrawer && !scope.drawerState) scope.toggleDrawer();
+      scope.currentBird = selected;
+      return selected;
+    };
 
-		scope.toggleDrawer = function () {
-			scope.drawerState = !scope.drawerState;
-		};
-		scope.$watch('showGraph', function(n, o){
-			if(n) scope.drawerState = false;
-		});
-	}]);
+    scope.toggleDrawer = function () {
+      scope.drawerState = !scope.drawerState;
+    };
+    scope.$watch('showGraph', function(n, o){
+      if(n) scope.drawerState = false;
+    });
+  }]);
 
-	angular.element(document).ready(function() {
-	  angular.bootstrap(document, ['BirdApp']);
-	});
+  angular.element(document).ready(function() {
+    angular.bootstrap(document, ['BirdApp']);
+  });
 })();
