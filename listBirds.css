@@ -1,5 +1,5 @@
 html {
-	background-color: #F4F1EA;	
+	background-color: #F4F1EA;
 }
 body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -231,7 +231,10 @@ a.timestamp {
 	margin: 0;
 	border-radius:0;
 	padding:0;
-	height: 3px;
+	height: 2px;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
 }
 .graphmode .bird-table li span {
 	display: none;
@@ -254,7 +257,7 @@ a.timestamp {
 }
 
 .graphmode .listHolderHolder {
-	margin-top: 50px;	
+	margin-top: 50px;
 }
 
 .graphmode .listHolder {
