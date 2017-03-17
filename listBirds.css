@@ -39,10 +39,19 @@ body {
 	text-align: right;
 	width: 100%;
 }
+.controls label {
+    -webkit-user-select: none;
+}
 .controls input[type=search]{
+    -webkit-appearance:textfield;
 	width: 300px;
-	float: right;
+	float: left;
 	font-size: large;
+    border-radius: 15px;
+    height: 39px;
+    padding: 10px;
+    border: 2px solid white;
+    margin-top: -7px;
 }
 .controls .button-grp {
 	float:right;
@@ -67,7 +76,9 @@ body {
 	opacity: 1;
     color: #F4F1EA;
 }
-
+.month-picker-container label.filter-on:after {
+    content:'\2605';
+}
 .info {
 	color: white;
 	height: inherit;
@@ -275,27 +286,36 @@ a.timestamp {
 .graphmode .bird {
 	cursor: inherit;
 }
-
-.month-picker {
-	width: 385px;
-	float:left;
-	display: table;
+.month-picker-container {
+    display: inline-block;
 }
-
+.month-picker {
+    width: 385px;
+    float: left;
+    display: table;
+}
 .month-picker div {
 	overflow: hidden;
 	float:left;
 	cursor: pointer;
 	text-align: center;
-	border-radius: 18px;
 	border-width: 2px;
 	border-style: solid;
 	-webkit-user-select: none;
-	line-height: 18px;
+	line-height: 30px;
+	margin-top: -4px;
 	color: white;
 	display: table-cell;
 	box-sizing: border-box;
 	width: 7.6%;
+}
+.month-picker div:first-child {
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+.month-picker div:last-child {
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
 }
 
 .month-picker div.inactive {
@@ -312,17 +332,19 @@ a.timestamp {
 	clear: both;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1175px) {
 	.month-picker-container {
 		width: 100%;
 	}
 	.month-picker{
+        display: none;
 		width: 100%;
 		float: none;
 	}
 	.controls input[type=search] {
+        -webkit-appearance: textfield;
 		float: none;
-		font-size: small;
+        margin-top: 5px;
 	}
 	.controls {
 		text-align: center;
