@@ -331,17 +331,17 @@ a.timestamp {
 .month-picker div:after {
 	clear: both;
 }
+
 label[for=menu] {
     display: none;
 }
+
 @media (max-width: 1200px) {
-	.controls input[type=search] {
-        -webkit-appearance: textfield;
-		float: left;
+    .controls input[type=search] {
         margin-top: 5px;
-        margin-left: 10px;
-	}
-	.controls {
+        margin-left: 5px;
+    }
+    .controls {
         padding: 0;
     }
     .controls .button-grp {
@@ -365,7 +365,6 @@ label[for=menu] {
         left: 0;
         top: 50px;
         float: none;
-        z-index: 300;
     }
     .top {
         z-index: 300;
@@ -376,7 +375,6 @@ label[for=menu] {
     .month-picker div {
         float: none;
     }
-
     .month-picker div.remove {
         background-color: white;
     }
