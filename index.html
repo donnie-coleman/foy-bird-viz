@@ -12,12 +12,15 @@
             <form>
                 <input class="clearfix"  id="search" type="search" name="search" placeholder="Search by Name, Notes" ng-model="birdName" />
             </form>
-		    <span class="button-grp" ng-show="!isHandheld">
-                <month-picker ng-show="!isHandheld" selected-months="selectedMonths"></month-picker>
-				<input class="clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
-				<input class="clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
-				<input class="clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
-			</span>
+            <span class="button-grp">
+                <month-picker selected-months="selectedMonths" display-filter="monthFilter"></month-picker>
+                <input class="menu-reverse clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
+                <input class="menu-lifers clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
+                <input class="menu-graph clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
+            </span>
+            <span class="hamburger">
+                <input class="clearfix"  id="menu" type="checkbox"  ng-model="monthFilter"/><label for="menu" class="bird">&equiv;</label>
+            </span>
 		</div>
 	</div>
 
@@ -96,7 +99,7 @@
 
   	<script type="text/ng-template" id="monthpicker.html">
 		<div class="month-picker-container">
-            <input class="clearfix"  id="month" type="checkbox" ng-model="monthFilter" /><label for="month" class="bird" ng-class="{'filter-on': selectedMonths.length>0}">Month</label>
+            <input class="menu-month clearfix"  id="month" type="checkbox" ng-model="monthFilter" /><label for="month" class="bird" ng-class="{'filter-on': selectedMonths.length>0}">Month</label>
             <div class="month-picker" ng-show="monthFilter">
 				<month-picker-month month="month" ng-repeat="month in months"></month-picker-month>
 				<div class="remove" ng-click="removeAll()" title="Show all months">x</div>

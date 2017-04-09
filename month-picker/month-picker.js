@@ -5,7 +5,8 @@
       return {
         replace: true,
         scope: {
-          selectedMonths: "="
+          selectedMonths: "=",
+          monthFilter: "=displayFilter"
         },
         templateUrl: 'monthpicker.html',
         transclude: 'monthPickerMonth',

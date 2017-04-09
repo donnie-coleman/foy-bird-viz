@@ -10,6 +10,7 @@
     scope.currentBird = "";
     scope.selectedMonths = [];
     scope.isHandheld = window.innerWidth <= 1100;
+    scope.monthFilter = false;
 
     // populate the birdLists
     birdService

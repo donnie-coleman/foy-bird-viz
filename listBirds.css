@@ -331,26 +331,57 @@ a.timestamp {
 .month-picker div:after {
 	clear: both;
 }
-
-@media (max-width: 1175px) {
-	.month-picker-container {
-		width: 100%;
-	}
-	.month-picker{
-        display: none;
-		width: 100%;
-		float: none;
-	}
+label[for=menu] {
+    display: none;
+}
+@media (max-width: 1200px) {
 	.controls input[type=search] {
         -webkit-appearance: textfield;
-		float: none;
+		float: left;
         margin-top: 5px;
+        margin-left: 10px;
 	}
 	.controls {
-		text-align: center;
-		padding: 0;
-	}
-	.controls .button-grp {
-		display: none;
-	}
+        padding: 0;
+    }
+    .controls .button-grp {
+        margin-right: 0;
+    }
+    .controls .hamburger {
+        float: right;
+        margin-top: 12px;
+    }
+    label[for=month],
+    label[for=reverse] ,
+    label[for=lifers],
+    label[for=showGraph] {
+        display: none;
+    }
+    label[for=menu] {
+        display: inline;
+    }
+    .month-picker {
+        position: fixed;
+        left: 0;
+        top: 50px;
+        float: none;
+        z-index: 300;
+    }
+    .top {
+        z-index: 300;
+    }
+    .month-picker {
+        width: 100%;
+    }
+    .month-picker div {
+        float: none;
+    }
+
+    .month-picker div.remove {
+        background-color: white;
+    }
+    .month-picker div:first-child,
+    .month-picker div:last-child {
+        border-radius: 0;
+    }
 }
