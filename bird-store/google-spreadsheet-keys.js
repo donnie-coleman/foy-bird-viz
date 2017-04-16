@@ -3,7 +3,7 @@
   .module('bird-service')
   .service('googleSpreadsheetKeys', ['$q', '$http', function ($q, $http){
     const worksheetId = '1e3Jrxj2PNqXwJ9z96LK1FzxYdg1Ate1bg2PDQ8vGXnI',
-          worksheetUrl = `https://spreadsheets.google.com/feeds/worksheets/${worksheetId}/public/values?alt=json-in-script&callback=JSON_CALLBACK`;
+          worksheetUrl = 'https://spreadsheets.google.com/feeds/worksheets/'+worksheetId+'/public/values?alt=json-in-script&callback=JSON_CALLBACK';
     var worksheets;
 
     var fetchWorksheets = function (){
