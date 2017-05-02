@@ -30,7 +30,7 @@
 		</div>
 
 		<div class="listHolderHolder years">
-		    <div class="listHolder" ng-repeat="year in birdLists | reverseOrder:true">
+		    <div class="listHolder" ng-repeat="year in getBirdLists() | reverseOrder:true">
 				<bird-list selected-months="selectedMonths" year="year" drawer-state="drawerState" bird-name="{{birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" select="selectBird(b)" refresh="refreshList(year)"></bird-list>
 		    </div>
 		</div>

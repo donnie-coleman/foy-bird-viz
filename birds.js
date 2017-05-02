@@ -11,14 +11,13 @@
     scope.selectedMonths = [];
     scope.isHandheld = window.innerWidth <= 1100;
     scope.monthFilter = false;
+    scope.currentYearIndex = 0;
 
     // populate the birdLists
     birdService
       .init()
       .then(function(){
-        var func = scope.isHandheld ? function(){ return [birdService.getBirdsByYear()];} : birdService.getBirds;
-
-        $q.all(func())
+        $q.all(scope.populateBirdLists())
           .then(function(datas){
             if(!datas.length) return;
             scope.birdLists = datas;
@@ -29,18 +28,39 @@
           });
       });
 
-    scope.loadNewYear = function(next) {
-      if(!scope.isHandheld) return;
+    scope.populateBirdLists = function() {
+      return scope.isHandheld ? [birdService.getBirdsByYear()] : birdService.getBirds();
+    };
 
-      var year = scope.birdLists[0].year;
+    scope.getBirdLists = function() {
+      if(scope.birdLists.length && scope.isHandheld){
+        return [scope.birdLists[scope.currentYearIndex]];
+      }
+      else {
+        return scope.birdLists;
+      }
+    };
 
-      if(next){ year++; } else { year--; }
+    scope.loadNewYear = function(swipeRight) {
+      if(!scope.isHandheld || (swipeRight && scope.currentYearIndex === 0)) return; // can't load next year
 
-      birdService
-        .getBirdsByYear(year)
-        .then(function (data){
-          scope.birdLists = [data];
-        });
+      var nextYearIndex = scope.currentYearIndex;
+      swipeRight ? nextYearIndex-- : nextYearIndex++;
+
+      var nextYear = scope.birdLists[scope.currentYearIndex].year;
+      swipeRight ? nextYear++ : nextYear--;
+
+      if(!scope.birdLists[nextYearIndex]) {
+        birdService
+          .getBirdsByYear(nextYear)
+          .then(function (data) {
+            scope.birdLists.push(data);
+            scope.currentYearIndex = nextYearIndex;
+          });
+      }
+      else {
+        scope.currentYearIndex = nextYearIndex;
+      }
     };
 
     scope.refreshList = function (list) {
@@ -66,6 +86,7 @@
     scope.toggleDrawer = function () {
       scope.drawerState = !scope.drawerState;
     };
+
     scope.$watch('showGraph', function(n, o){
       if(n) scope.drawerState = false;
     });
