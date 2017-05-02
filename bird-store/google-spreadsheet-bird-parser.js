@@ -6,22 +6,24 @@
 
   angular
     .module('bird-service')
-    .service('birdParser', ['$http', 'googleSpreadsheetKeys', function ($http, googleSpreadsheet) {
-      const url_end = "?alt=json-in-script&callback=JSON_CALLBACK";
-      var keys;
+    .constant("urlParams", {
+      jsonCallback: '?alt=json-in-script&callback=JSON_CALLBACK'
+    })
+    .service('birdParser', ['$http', 'googleSpreadsheetKeys', '$q', 'urlParams', function ($http, googleSpreadsheet, $q, urlParams) {
+      var workSheets;
 
       var init = function (){
         return googleSpreadsheet
           .getWorksheetUrls()
           .then(function(worksheetKeys){
-            keys = _.sortBy(worksheetKeys, function(worksheet) { return worksheet.year; });
+            workSheets = _.sortBy(worksheetKeys, function(worksheet) { return worksheet.year; });
           });
       };
 
       var getBirds = function () {
         var promises = [];
         //obtain a promise for each bird list
-        _.each(keys, function (element, index, list) {
+        _.each(workSheets, function (element, index, list) {
           promises.push(getBirdsByKey(element.key));
         });
 
@@ -29,31 +31,25 @@
       };
 
       var getBirdsByYear = function (year) {
-        var max = _.max(keys, function(key) { return key.year}).year;
-        var min = _.min(keys, function(key) { return key.year}).year;
+        var max = _.max(workSheets, function(workSheet) { return workSheet.year}).year;
+        var min = _.min(workSheets, function(workSheet) { return workSheet.year}).year;
 
-        if(!year || year > max){
+        if (!year) {
           year = max;
         }
-        else if (year < min) {
-          year = min;
+        else if (year > max || year < min) {
+          var deferred = $q.defer();
+          deferred.reject();
+          return deferred.promise;
         }
 
-        var element = _.findWhere(keys, {year: year.toString()});
-        return getBirdsByKey(element.key);
+        var workSheet = _.findWhere(workSheets, {year: year.toString()});
+        return getBirdsByKey(workSheet.key);
       };
 
       var getBirdsByKey = function (key) {
-        return _getBirdsByKey(key)
-          .then(function (data) {
-            // todo: cache data
-            return data;
-          });
-      };
-
-      var _getBirdsByKey = function (key) {
         return $http({
-          url: key + url_end,
+          url: key + urlParams.jsonCallback,
           method: "JSONP"
         })
         .then(function (data, status, headers, config) {
