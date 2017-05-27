@@ -12,6 +12,8 @@
     scope.isHandheld = window.innerWidth <= 1100;
     scope.monthFilter = false;
     scope.currentYearIndex = 0;
+    scope.showDiff = false;
+    scope.refreshed = false;
 
     // populate the birdLists
     birdService
@@ -64,12 +66,10 @@
     };
 
     scope.refreshList = function (list) {
-      var year = list.year;
-      birdService.getBirdsByYear(year)
+      birdService.getBirdsByYear(list.year)
       .then(function(data){
-        var index = _.findIndex(scope.birdLists, {year:year});
-        scope.birdLists[index] = data;
-        scope.initBird = scope.currentBird;
+        scope.birdLists[scope.currentYearIndex] = data;
+        scope.refreshed = true;
       });
     };
 
@@ -89,6 +89,35 @@
 
     scope.$watch('showGraph', function(n, o){
       if(n) scope.drawerState = false;
+    });
+
+    scope.$watchGroup(['showDiff', 'currentYearIndex', 'refreshed'], function() {
+      if(scope.birdLists && scope.showDiff  && !scope.shownDiff) {
+        // if lists were loaded all at once, the current year is last
+        // if the lists were loaded one by one, the current year is first
+        let thisYearsBirdList = !scope.isHandheld ? _.last(scope.birdLists) : _.first(scope.birdLists);
+        let thisYear = thisYearsBirdList.year;
+        let thisYearsBirds = thisYearsBirdList.birds.map(function (bird) {
+          return bird.bird;
+        });
+
+        scope.birdLists.forEach(function (year) {
+          if (year.year == thisYear) return;
+
+          Object.keys(year.byMonth).forEach(function (i) {
+            let month = year.byMonth[i];
+            month.forEach(function (bird) {
+              if (_.contains(thisYearsBirds, bird.bird)) {
+                bird.alreadyFound = true;
+              }
+              else {
+                bird.alreadyFound = false;
+              }
+            });
+          });
+        });
+        scope.refreshed = false;
+      }
     });
   }]);
 
