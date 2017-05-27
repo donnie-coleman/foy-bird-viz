@@ -367,6 +367,7 @@ label[for=menu] {
     }
     label[for=reverse],
     label[for=showDiff] {
+        text-align: center;
         position: fixed;
         top: 85px;
         float: none;
