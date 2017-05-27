@@ -14,9 +14,10 @@
             </form>
             <span class="button-grp">
                 <month-picker selected-months="selectedMonths" display-filter="monthFilter"></month-picker>
-                <input class="menu-reverse clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
+                <input class="menu-reverse clearfix"  id="reverse" type="checkbox" ng-model="reverse" /><label for="reverse" class="bird" ng-show="!isHandheld || (isHandheld && monthFilter)">{{reverse?'Dec &rarr; Jan':'Jan &rarr; Dec'}}</label>
                 <input class="menu-lifers clearfix"  id="lifers" type="checkbox" ng-model="lifers" /><label for="lifers" class="bird">{{lifers?'Life Birds':'All Birds'}}</label>
                 <input class="menu-graph clearfix"  id="showGraph" type="checkbox" ng-model="showGraph" /><label for="showGraph" class="bird">{{showGraph?'Graph View':'List View'}}</label>
+                <input class="menu-diff clearfix"  id="showDiff" type="checkbox" ng-model="showDiff" /><label for="showDiff" class="bird" ng-show="!isHandheld || (isHandheld && monthFilter)">{{showDiff?'Diff View':'Full View'}}</label>
             </span>
             <span class="hamburger">
                 <input class="clearfix"  id="menu" type="checkbox"  ng-model="monthFilter"/><label for="menu" class="bird">&equiv;</label>
@@ -28,12 +29,13 @@
 		<div class="bird-info-bar" ng-click="toggleDrawer()"></div>
 
 		<div class="bird-info-bar-container listHolderHolder slide" ng-click="toggleDrawer()" ng-class="{showInfo:drawerState}">
-			<bird-info-container init-bird="initBird" ng-repeat="year in birdLists | reverseOrder:true" drawer-state="drawerState" year="year"></bird-info-container>
+			<bird-info-container ng-if="!isHandheld" init-bird="initBird" ng-repeat="year in birdLists | reverseOrder:true" drawer-state="drawerState" year="year"></bird-info-container>
+			<bird-info-container ng-if="isHandheld && birdLists.length" init-bird="initBird" drawer-state="drawerState" year="birdLists[0]"></bird-info-container>
 		</div>
 
 		<div class="listHolderHolder years">
 		    <div class="listHolder" ng-repeat="year in getBirdLists() | reverseOrder:true">
-				<bird-list selected-months="selectedMonths" year="year" drawer-state="drawerState" bird-name="{{birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" select="selectBird(b)" refresh="refreshList(year)"></bird-list>
+				<bird-list selected-months="selectedMonths" year="year" drawer-state="drawerState" bird-name="{{birdName}}" reverse="{{reverse}}" lifers="{{lifers}}" show-diff="{{showDiff}}" select="selectBird(b)" refresh="refreshList(year)"></bird-list>
 		    </div>
 		</div>
 	</span>
@@ -65,16 +67,17 @@
 		<div>
 			<ol class="bird-table" ng-class="{showInfo:drawerState}">
 				<li class="year"><span class="timestamp hidden-space">&orarr;</span><span ng-bind="::year.year"></span><a class="timestamp" href="#" ng-click="refresh({y:year})" title="Last Refresh: {{::year.timestamp|timestamp}}">&orarr;</a></li>
-				<li ng-if="lifers=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: lifers ).length}} Birds</li>
+				<li ng-if="lifers=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {lifer: true} ).length}} Birds</li>
 				<li ng-if="lifers=='false' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
+				<li ng-if="showDiff=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {alreadyFound: false}).length}} Unseen</li>
 			    <ng-include ng-if="!isMonthHidden(formatMonth(month[0].month))" src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
 			</ol>
 		</div>
 	</script>
 
 	<script type="text/ng-template" id="monthbird.html">
-		<li class="month" ng-hide="birdName.length || lifers=='true'"><span ng-bind="::formatMonth(month[0].month)"></span><span ng-bind="::formatMonth(month[0].year)"></span>: <span ng-bind="::month.length"></span> birds</li>
-		<li class="bird {{ ::formatMonth(bird.month) | lowercase }}" ng-class="{lifer:bird.lifer}" ng-hide="lifers=='true' && {{!bird.lifer}}" ng-repeat="bird in month | filter: birdName | reverseOrder:reverse" ng-click="select({b:bird})" >
+		<li class="month" ng-hide="birdName.length || lifers=='true' || showDiff=='true'"><span ng-bind="::formatMonth(month[0].month)"></span><span ng-bind="::formatMonth(month[0].year)"></span>: <span ng-bind="::month.length"></span> birds</li>
+		<li class="bird {{ ::formatMonth(bird.month) | lowercase }}" ng-class="{lifer:bird.lifer}" ng-hide="(lifers=='true' && {{!bird.lifer}}) || (showDiff=='true' && bird.alreadyFound)" ng-repeat="bird in month | filter: birdName | reverseOrder:reverse" ng-click="select({b:bird})" >
 			<span class="bird-name" ng-bind="::bird.bird"></span>
 		</li>
 	</script>

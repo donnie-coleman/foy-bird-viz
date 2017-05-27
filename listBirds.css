@@ -352,7 +352,6 @@ label[for=menu] {
         margin-top: 12px;
     }
     label[for=month],
-    label[for=reverse] ,
     label[for=lifers],
     label[for=showGraph] {
         display: none;
@@ -366,20 +365,37 @@ label[for=menu] {
         top: 50px;
         float: none;
     }
-    .top {
-        z-index: 300;
-    }
-    .month-picker {
-        width: 100%;
-    }
-    .month-picker div {
+    label[for=reverse],
+    label[for=showDiff] {
+        position: fixed;
+        top: 85px;
         float: none;
+        width: 78px;
     }
-    .month-picker div.remove {
-        background-color: white;
+    label[for=reverse] {
+        background-color: #9DD2D7;
+        left: 0;
     }
-    .month-picker div:first-child,
-    .month-picker div:last-child {
-        border-radius: 0;
+    label[for=showDiff] {
+        background-color: #9DD2D7;
+        right: 0;
     }
+
+.top {
+    z-index: 300;
+}
+.month-picker {
+    width: 100%;
+}
+.month-picker div {
+    line-height: 25px;
+    float: none;
+}
+.month-picker div.remove {
+    background-color: white;
+}
+.month-picker div:first-child,
+.month-picker div:last-child {
+    border-radius: 0;
+}
 }

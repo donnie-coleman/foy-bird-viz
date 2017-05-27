@@ -10,6 +10,7 @@
           birdName: '@',
           reverse: '@',
           lifers: '@',
+          showDiff: '@',
           drawerState: '=',
           select: '&', //invoke method on parent scope
           refresh: '&',
