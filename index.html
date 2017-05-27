@@ -28,7 +28,7 @@
 
 		<div class="bird-info-bar-container listHolderHolder slide" ng-click="toggleDrawer()" ng-class="{showInfo:drawerState}">
 			<bird-info-container ng-if="!isHandheld" init-bird="initBird" ng-repeat="year in birdLists | reverseOrder:true" drawer-state="drawerState" year="year"></bird-info-container>
-			<bird-info-container ng-if="isHandheld && birdLists.length" init-bird="initBird" drawer-state="drawerState" year="birdLists[0]"></bird-info-container>
+			<bird-info-container ng-if="isHandheld && birdLists.length" init-bird="initBird" drawer-state="drawerState" year="birdLists[currentYearIndex]"></bird-info-container>
 		</div>
 
 		<div class="listHolderHolder years">
