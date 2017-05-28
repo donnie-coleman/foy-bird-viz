@@ -66,10 +66,12 @@
     };
 
     scope.refreshList = function (list) {
-      birdService.getBirdsByYear(list.year)
+      const year = list.year;
+      birdService.getBirdsByYear(year)
       .then(function(data){
-        scope.birdLists[scope.currentYearIndex] = data;
-        scope.refreshed = true;
+        const index = _.findIndex(scope.birdLists, {year});
+        scope.birdLists[index] = data;
+        scope.initBird = scope.currentBird;
       });
     };
 

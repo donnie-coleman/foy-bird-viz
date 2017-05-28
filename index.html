@@ -68,13 +68,13 @@
 				<li ng-if="lifers=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {lifer: true} ).length}} Birds</li>
 				<li ng-if="lifers=='false' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
 				<li ng-if="showDiff=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {alreadyFound: false}).length}} Unseen</li>
-			    <ng-include ng-if="!isMonthHidden(formatMonth(month[0].month))" src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
+			    <ng-include ng-if="!isMonthHidden(month[0].month)" src="'monthbird.html'" ng-repeat="month in year.byMonth | orderObjectBy | reverseOrder:reverse"></ng-include>
 			</ol>
 		</div>
 	</script>
 
 	<script type="text/ng-template" id="monthbird.html">
-		<li class="month" ng-hide="birdName.length || lifers=='true' || showDiff=='true'"><span ng-bind="::formatMonth(month[0].month)"></span><span ng-bind="::formatMonth(month[0].year)"></span>: <span ng-bind="::month.length"></span> birds</li>
+		<li class="month" ng-hide="birdName.length || lifers=='true' || showDiff=='true'"><span ng-bind="::formatMonth(month[0].month)"></span>: <span ng-bind="::month.length"></span> birds</li>
 		<li class="bird {{ ::formatMonth(bird.month) | lowercase }}" ng-class="{lifer:bird.lifer}" ng-hide="(lifers=='true' && {{!bird.lifer}}) || (showDiff=='true' && bird.alreadyFound)" ng-repeat="bird in month | filter: birdName | reverseOrder:reverse" ng-click="select({b:bird})" >
 			<span class="bird-name" ng-bind="::bird.bird"></span>
 		</li>
