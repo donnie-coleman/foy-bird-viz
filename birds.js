@@ -2,7 +2,7 @@
   angular
   .module('BirdApp', ['bird-service', 'bird-list', 'utils', 'bird-info', 'month-picker', 'ngTouch'])
   .controller('BirdsCtrl', ['$scope', 'birdService', '$q', '$filter', function(scope, birdService, $q, $filter) {
-    scope.reverse = true;
+    scope.reverse = false;
     scope.lifers = false;
     scope.birdLists = [];
     scope.drawerState = false;
@@ -26,7 +26,7 @@
 
             // select the first bird in the latest list
             var latestList = _.last(scope.birdLists).birds;
-            scope.initBird = scope.selectBird(scope.reverse ? _.last(latestList) : _.first(latestList), true);
+            scope.initBird = scope.selectBird(scope.reverse ? _.first(latestList) : _.last(latestList), true);
           });
       });
 
