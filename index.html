@@ -76,7 +76,7 @@
 	</script>
 
 	<script type="text/ng-template" id="monthbird.html">
-		<li class="month" ng-hide="birdName.length || lifers=='true' || showDiff=='true'"><span ng-bind="::formatMonth(month[0].month)"></span><span ng-bind="::formatMonth(month[0].year)"></span>: <span ng-bind="::month.length"></span> birds</li>
+		<li class="month" ng-hide="birdName.length || lifers=='true' || showDiff=='true'"><span ng-bind="::formatMonth(month[0].month)"></span>: <span ng-bind="::month.length"></span> birds</li>
 		<li class="bird {{ ::formatMonth(bird.month) | lowercase }}" ng-class="{lifer:bird.lifer}" ng-hide="(lifers=='true' && {{!bird.lifer}}) || (showDiff=='true' && bird.alreadyFound)" ng-repeat="bird in month | filter: birdName | reverseOrder:reverse" ng-click="select({b:bird})" >
 			<span class="bird-name" ng-bind="::bird.bird"></span>
 		</li>
