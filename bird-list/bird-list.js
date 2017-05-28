@@ -23,7 +23,7 @@
             return monthNameFilter(month);
           };
           scope.isMonthHidden = function (month) {
-            month = month.toLowerCase();
+            month = scope.formatMonth(month).toLowerCase();
             return scope.selectedMonths.length && !_.find(scope.selectedMonths, function (it) {
                 return it.month == month;
               });
