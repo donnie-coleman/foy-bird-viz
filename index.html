@@ -65,8 +65,9 @@
 
 	<script type="text/ng-template" id="allbirds.html">
 		<div>
-			<ol class="bird-table" ng-class="{showInfo:drawerState}">
-				<li class="year"><span class="timestamp hidden-space">&orarr;</span><span ng-bind="::year.year"></span><a class="timestamp" href="#" ng-click="refresh({y:year})" title="Last Refresh: {{::year.timestamp|date:'medium'}}">&orarr;</a></li>
+            <img class="loading-img" ng-show="loading" src="https://cdnjs.cloudflare.com/ajax/libs/timelinejs/2.25/css/loading.gif" />
+			<ol class="bird-table" ng-class="{showInfo:drawerState, loading:loading}">
+				<li class="year"><span class="timestamp hidden-space">&orarr;</span><span ng-bind="::year.year"></span><a class="timestamp" href="#" ng-click="doRefresh(year)" title="Last Refresh: {{::year.timestamp|date:'medium'}}">&orarr;</a></li>
 				<li ng-if="lifers=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {lifer: true} ).length}} Birds</li>
 				<li ng-if="lifers=='false' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName ).length}} Birds</li>
 				<li ng-if="showDiff=='true' && !selectedMonths.length" class="total">{{(year.birds | filter: birdName | filter: {alreadyFound: false}).length}} Unseen</li>

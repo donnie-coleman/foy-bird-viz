@@ -400,3 +400,13 @@ label[for=menu] {
     border-radius: 0;
 }
 }
+.bird-table.loading {
+    opacity: .3;
+}
+
+.loading-img {
+    position: relative;
+    top: 115px;
+    left: 45%;
+    float: left;
+}
