@@ -1,7 +1,7 @@
 (function () {
   angular
     .module('month-picker')
-    .directive('monthPicker', [function () {
+    .directive('monthPicker', ['monthNameFilter', function (monthNameFilter) {
       return {
         replace: true,
         scope: {
@@ -11,18 +11,7 @@
         templateUrl: 'monthpicker.html',
         transclude: 'monthPickerMonth',
         controller: ['$scope', function ($scope) {
-          $scope.months = [ "january",
-                            "february",
-                            "march",
-                            "april",
-                            "may",
-                            "june",
-                            "july",
-                            "august",
-                            "september",
-                            "october",
-                            "november",
-                            "december"];
+          $scope.months = _.range(12).map(function(month){ return monthNameFilter(month).toLowerCase(); });
 
           this.selector = function (scope) {
             if (_.find($scope.selectedMonths, scope)) {

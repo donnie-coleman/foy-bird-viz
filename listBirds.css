@@ -172,19 +172,19 @@ a.timestamp {
 	font-size: 14px;
 }
 
-.january {
+.january, .jan {
 	background-color: #3498db;
     border: 2px solid #3498db;
 }
-.february {
+.february, .feb {
 	background-color: #95a5a6;
     border: 2px solid #95a5a6;
 }
-.march {
+.march, .mar {
 	background-color: #27ae60;
     border: 2px solid #27ae60;
 }
-.april {
+.april, .apr {
 	background-color: #c0392b;
     border: 2px solid #c0392b;
 }
@@ -192,31 +192,31 @@ a.timestamp {
 	background-color: Orange;
     border: 2px solid Orange;
 }
-.june {
+.june, .jun {
 	background-color: #16a085;
     border: 2px solid #16a085;
 }
-.july {
+.july, .jul {
 	background-color: #f1c40f;
     border: 2px solid #f1c40f;
 }
-.august{
+.august, .aug {
 	background-color: #e74c3c;
     border: 2px solid #e74c3c;
 }
-.september{
+.september, .sep {
 	background-color: #7f8c8d;
     border: 2px solid #7f8c8d;
 }
-.october{
+.october, .oct {
 	background-color: #d35400;
     border: 2px solid #d35400;
 }
-.november{
+.november, .nov {
 	background-color: #8e44ad;
     border: 2px solid #8e44ad;
 }
-.december{
+.december, .dec {
 	background-color: #34495e;
     border: 2px solid #34495e;
 }

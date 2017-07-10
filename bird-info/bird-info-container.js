@@ -1,7 +1,7 @@
 (function(){
 	angular
 	.module('bird-info')
-	.directive('birdInfoContainer', ['monthNameFilter', 'dayNameFilter', function(monthNameFilter, dayNameFilter) {	
+	.directive('birdInfoContainer', ['monthNameFilter', 'dayNameFilter', function(monthNameFilter, dayNameFilter) {
 		return {
 			replace: true,
 	     	restrict: 'E',
@@ -11,8 +11,8 @@
 			},
 			templateUrl: 'infocontainer.html',
 			link: function (scope, element, attr){
-			  scope.formatDate = function(bird){  	
-			  		return bird ? dayNameFilter(bird.day)+", "+monthNameFilter(bird.month)+" "+bird.date+", "+bird.year : "";
+			  scope.formatDate = function(bird){
+			  		return bird ? dayNameFilter(bird.day)+", "+bird.date+" "+monthNameFilter(bird.month)+" "+bird.year : "";
 			  };
 		  	  scope.getLifer = function(bird){
 			  		return bird && bird.lifer ? "Lifer":"";
